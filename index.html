@@ -324,12 +324,24 @@
         win = 700;
         balance += win;
         setMessage(`🎉 JACKPOT!<br>Ты выиграл ${win} фишек!`, "win");
+        Telegram.WebApp.sendData(JSON.stringify({
+  action: "win",
+  amount: win
+}));
       } else if (r1 === r2 || r2 === r3 || r1 === r3) {
         win = 200;
         balance += win;
         setMessage(`✅ Есть пара!<br>Ты выиграл ${win} фишек!`, "win");
+        Telegram.WebApp.sendData(JSON.stringify({
+  action: "win",
+  amount: win
+}));
       } else {
         setMessage("❌ Не повезло. Попробуй ещё раз.", "lose");
+        Telegram.WebApp.sendData(JSON.stringify({
+  action: "lose",
+  amount: 100
+}));
       }
 
       balanceEl.innerText = balance;
