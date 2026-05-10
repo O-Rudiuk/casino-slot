@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Royal Demo Slot</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at top left, rgba(255, 204, 0, 0.25), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(123, 63, 228, 0.45), transparent 35%),
+        linear-gradient(135deg, #090018, #1c0738 45%, #05010d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .casino-card {
+      width: 100%;
+      max-width: 430px;
+      padding: 22px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .casino-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(120deg, transparent, rgba(255, 215, 0, 0.25), transparent);
+      pointer-events: none;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .tag {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 204, 0, 0.14);
+      border: 1px solid rgba(255, 204, 0, 0.35);
+      color: #ffd766;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .balance-box {
+      margin: 22px 0;
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.14);
+      position: relative;
+      z-index: 1;
+    }
+
+    .balance-label {
+      color: rgba(255,255,255,0.68);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .balance-value {
+      font-size: 30px;
+      font-weight: 900;
+      color: #ffd86b;
+    }
+
+    .machine {
+      padding: 16px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(14, 6, 35, 0.95), rgba(39, 11, 74, 0.95));
+      border: 1px solid rgba(255, 215, 0, 0.22);
+      box-shadow: inset 0 0 30px rgba(255, 204, 0, 0.08);
+      position: relative;
+      z-index: 1;
+    }
+
+    .reels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .reel {
+      height: 105px;
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, #ffffff, #f2e7ff);
+      color: #21102f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      box-shadow:
+        inset 0 0 18px rgba(0,0,0,0.18),
+        0 12px 25px rgba(0,0,0,0.35);
+      border: 3px solid rgba(255, 215, 0, 0.7);
+      transition: transform 0.18s ease;
+    }
+
+    .reel.spin {
+      animation: shake 0.12s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translateY(-3px) scale(1.02); }
+      50% { transform: translateY(3px) scale(0.98); }
+      100% { transform: translateY(-3px) scale(1.02); }
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 18px;
+      border: none;
+      padding: 17px 22px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ffe259, #ffa751);
+      color: #1d0b2f;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 14px 30px rgba(255, 167, 81, 0.32);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin-top: 16px;
+      min-height: 52px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.9);
+      font-size: 16px;
+      line-height: 1.35;
+      position: relative;
+      z-index: 1;
+    }
+
+    .win {
+      color: #70ff9b;
+      font-weight: 900;
+      animation: pulse 0.6s ease-in-out 3;
+    }
+
+    .lose {
+      color: #ff8b8b;
+      font-weight: 800;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.62);
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 420px) {
+      .casino-card {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .reel {
+        height: 88px;
+        font-size: 42px;
+      }
+
+      .balance-value {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="casino-card">
+    <div class="top-row">
+      <div class="logo">🎰 Royal Slot</div>
+      <div class="tag">DEMO MODE</div>
+    </div>
+
+    <div class="balance-box">
+      <div class="balance-label">Твой баланс</div>
+      <div class="balance-value"><span id="balance">1000</span> фишек</div>
+    </div>
+
+    <div class="machine">
+      <div class="reels">
+        <div class="reel" id="reel1">🍒</div>
+        <div class="reel" id="reel2">💎</div>
+        <div class="reel" id="reel3">7️⃣</div>
+      </div>
+
+      <button class="btn" id="spinBtn" onclick="spin()">SPIN · 100</button>
+    </div>
+
+    <div class="message" id="message">
+      Нажми SPIN, чтобы начать игру.
+    </div>
+
+    <div class="info-row">
+      <span>Ставка: 100</span>
+      <span>Jackpot: 700</span>
+      <span>Пара: 200</span>
+    </div>
+  </div>
+
+  <script>
+    let balance = 1000;
+    const bet = 100;
+    const symbols = ["🍒", "🍋", "⭐", "🔔", "7️⃣", "💎", "🍀"];
+
+    const reel1 = document.getElementById("reel1");
+    const reel2 = document.getElementById("reel2");
+    const reel3 = document.getElementById("reel3");
+    const balanceEl = document.getElementById("balance");
+    const messageEl = document.getElementById("message");
+    const spinBtn = document.getElementById("spinBtn");
+
+    function randomSymbol() {
+      return symbols[Math.floor(Math.random() * symbols.length)];
+    }
+
+    function setMessage(text, type = "") {
+      messageEl.className = "message " + type;
+      messageEl.innerHTML = text;
+    }
+
+    function spin() {
+      if (balance < bet) {
+        setMessage("❌ Недостаточно фишек для ставки.", "lose");
+        return;
+      }
+
+      spinBtn.disabled = true;
+      balance -= bet;
+      balanceEl.innerText = balance;
+      setMessage("Барабаны крутятся...");
+
+      reel1.classList.add("spin");
+      reel2.classList.add("spin");
+      reel3.classList.add("spin");
+
+      let ticks = 0;
+
+      const interval = setInterval(() => {
+        reel1.innerText = randomSymbol();
+        reel2.innerText = randomSymbol();
+        reel3.innerText = randomSymbol();
+
+        ticks++;
+
+        if (ticks >= 22) {
+          clearInterval(interval);
+
+          const r1 = randomSymbol();
+          const r2 = randomSymbol();
+          const r3 = randomSymbol();
+
+          reel1.innerText = r1;
+          reel2.innerText = r2;
+          reel3.innerText = r3;
+
+          reel1.classList.remove("spin");
+          reel2.classList.remove("spin");
+          reel3.classList.remove("spin");
+
+          checkWin(r1, r2, r3);
+          spinBtn.disabled = false;
+        }
+      }, 70);
+    }
+
+    function checkWin(r1, r2, r3) {
+      let win = 0;
+
+      if (r1 === r2 && r2 === r3) {
+        win = 700;
+        balance += win;
+        setMessage(`🎉 JACKPOT!<br>Ты выиграл ${win} фишек!`, "win");
+      } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+        win = 200;
+        balance += win;
+        setMessage(`✅ Есть пара!<br>Ты выиграл ${win} фишек!`, "win");
+      } else {
+        setMessage("❌ Не повезло. Попробуй ещё раз.", "lose");
+      }
+
+      balanceEl.innerText = balance;
+    }
+  </script>
+</body>
+</html>
